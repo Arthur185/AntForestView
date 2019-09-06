@@ -347,26 +347,7 @@ public class WaterView extends FrameLayout {
     private void animRemoveView(final View view) {
         view.animate()
 //                .translationY(viewDisappearY).translationX(viewDisappearX)
-                .alpha(0).scaleX(0).scaleY(0).setListener(new Animator.AnimatorListener() {
-
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
-        }).setDuration(REMOVE_DELAY_MILLIS).start();
+                .alpha(0).scaleX(0).scaleY(0).setDuration(REMOVE_DELAY_MILLIS).start();
     }
 
     /**
