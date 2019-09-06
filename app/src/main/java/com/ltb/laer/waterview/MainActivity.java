@@ -7,15 +7,14 @@ import android.widget.Toast;
 
 import com.ltb.laer.waterview.listener.WaterClickListener;
 import com.ltb.laer.waterview.model.Water;
-import com.ltb.laer.waterview.view.MyWaterView;
-import com.ltb.laer.waterview.view.WaterView;
+import com.ltb.laer.waterview.view.AntForestView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MyWaterView mWaterView;
+    private AntForestView mWaterView;
 
     private List<Water> mWaters = new ArrayList<>();
 

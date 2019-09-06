@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.ltb.laer.waterview.MainActivity">
 
-    <com.ltb.laer.waterview.view.MyWaterView
+    <com.ltb.laer.waterview.view.AntForestView
         android:id="@+id/wv_water"
         android:layout_width="match_parent"
         android:layout_height="300dp"
