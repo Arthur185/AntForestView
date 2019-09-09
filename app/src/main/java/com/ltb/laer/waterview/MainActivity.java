@@ -36,13 +36,16 @@ public class MainActivity extends AppCompatActivity {
             public void onWaterClick(Water water) {
                 Toast.makeText(MainActivity.this, "当前点击的是：" + water.getName() + "水滴的值是:"
                         + water.getNumber(), Toast.LENGTH_SHORT).show();
-                mWaterView.onDestroy();
             }
         });
     }
 
     public void onRest(View view) {
-        mWaterView.restartAnim();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mWaterView.stopAnim();
+    }
 }

@@ -37,7 +37,7 @@ import static android.animation.ValueAnimator.INFINITE;
  * ->为view设置一个初始的运动方向
  * ->添加view到容器中，并缩放伴随透明度显示
  * ->利用属性动画达到view上下位移动画
- * ->点击view后，缩放、透明度伴随位移移除水滴
+ * ->点击view后，缩放、透明度移除水滴,可自定义动画
  * ->界面销毁时停止动画避免内存泄漏，空指针等异常
  */
 public class AntForestView extends FrameLayout {
@@ -46,15 +46,16 @@ public class AntForestView extends FrameLayout {
     private LayoutInflater mInflater;
     private int mChildViewRes = R.layout.water_item;
     private List<Integer> mChildViewResList = new ArrayList<>();
-    //    private List<View> mViewList = new ArrayList<>();
     private List<Animator> mViewAnimatorList = new ArrayList<>();
     private int maxX, maxY;//子view的x坐标和y坐标的最大取值
     private Object[][] locationXY = new Object[][]{{0.41f, 0.01f}, {0.1f, 0.11f}, {0.21f, 0.01f}, {0.31f, 0.01f}, {0.51f, 0.01f}, {0.61f, 0.01f}, {0.71f, 0.01f}, {0.81f, 0.01f}, {0.81f, 0.11f}, {0.41f, 0.41f}};
-    private List<Integer> durationList = Arrays.asList(1500, 1600, 1800, 2000, 2300, 2500);
+    private List<Integer> durationList = Arrays.asList(1500, 1600, 1800, 2000, 2300, 2500); //利用动画执行时间不同来让水滴运动速度不同
     private WaterClickListener mWaterClickListener = null;//水滴点击监听
     private Animation animationDis = null;
-    private boolean palyAcq;
+    private boolean palyAcq; //是否播放消失默认动画
     private boolean isUp = mRandom.nextBoolean();
+    private float viewDisappearY = 0;
+    private float viewDisappearX = 0;
 
     public AntForestView(@NonNull Context context) {
         super(context);
@@ -87,24 +88,30 @@ public class AntForestView extends FrameLayout {
      */
     @Override
     protected void onDetachedFromWindow() {
-        onDestroy();
+        stopAnim();
         super.onDetachedFromWindow();
     }
 
+    /**
+     * 重新开始动画
+     */
     public void restartAnim() {
         for (Animator animator : mViewAnimatorList) {
             animator.start();
         }
     }
 
-    public void onDestroy() {
+    /**
+     * 停止动画
+     */
+    public void stopAnim() {
         for (Animator animator : mViewAnimatorList) {
             animator.cancel();
         }
     }
 
     /**
-     * 设置水滴
+     * 设置水滴(最后调用)
      *
      * @param waters
      */
@@ -176,7 +183,6 @@ public class AntForestView extends FrameLayout {
         animator.setRepeatMode(ValueAnimator.RESTART);
         animator.setRepeatCount(INFINITE);
         animator.start();
-//        mViewList.add(view);
         mViewAnimatorList.add(animator);
     }
 
@@ -205,10 +211,14 @@ public class AntForestView extends FrameLayout {
     }
 
     private void disAnimate(View view) {
-        view.animate()
-//                .translationY(viewDisappearY).translationX(viewDisappearX)
-                .alpha(0).scaleX(0).scaleY(0).setDuration(1000).start();
-//        mViewList.remove(view);
+        if (0 == viewDisappearX && 0 == viewDisappearY) {
+            view.animate()
+                    .alpha(0).scaleX(0).scaleY(0).setDuration(1000).start();
+        } else {
+            view.animate()
+                    .translationY(viewDisappearY).translationX(viewDisappearX)
+                    .alpha(0).scaleX(0).scaleY(0).setDuration(1000).start();
+        }
     }
 
     /**
@@ -255,5 +265,27 @@ public class AntForestView extends FrameLayout {
         return this;
     }
 
+    /**
+     * 设置水滴显示位置
+     *
+     * @param locationXY
+     * @return
+     */
+    public AntForestView setLocationXY(Object[][] locationXY) {
+        this.locationXY = locationXY;
+        return this;
+    }
 
+    /**
+     * 设置水滴消失位置
+     *
+     * @param viewDisappearX
+     * @param viewDisappearY
+     * @return
+     */
+    public AntForestView setViewDisXY(float viewDisappearX, float viewDisappearY) {
+        this.viewDisappearX = viewDisappearX;
+        this.viewDisappearY = viewDisappearY;
+        return this;
+    }
 }
