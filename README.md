@@ -5,4 +5,4 @@
 
 文档连接：[模仿蚂蚁森林水滴动效](https://www.jianshu.com/p/cc526bb34414)
 
-利用属性动画重写能量球效果文件名AntForestView
+利用属性动画重写能量球效果文件名[AntForestView](https://github.com/AirrWang/AntForestView/blob/master/app/src/main/java/com/ltb/laer/waterview/view/AntForestView.java)
